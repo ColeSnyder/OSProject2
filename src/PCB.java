@@ -15,6 +15,7 @@ public class PCB {
 		this.degree = degree;
 		this.jobs = jobs;
 		this.started = new ArrayList<Job>();
+		finished = new Job[jobs.size()];
 	}
 	
 	public void run(int x) {
@@ -24,10 +25,11 @@ public class PCB {
 		int time = this.time;
 		ArrayList<Job> jobs = this.jobs;
 		ArrayList<Job> started = this.started;
-		
+		finished[0] = jobs.get(0);
 		addReadyJobsInit(jobs, started);
-		
 		sort();
+
+		finalPrint();
 	}
 	
 	private void sort() {
@@ -53,7 +55,6 @@ public class PCB {
 				temp.setArrive(time); //This is the time that the job gets moved in
 				temp.setLoad(time);
 				started.add(temp); //Add popped job to running
-				System.out.println(started);
 			}
 
 	}
@@ -77,7 +78,10 @@ public class PCB {
 	}
 	
 	private void finalPrint() {
-		
+		System.out.println("Job \tArrival Time \tLoad Time \tCompletion Time \tCpu Time \tTime For I/O \tTime Spent Ready");
+		for(Job x : finished) {
+			System.out.println(x);
+		}
 	}
 	
 	

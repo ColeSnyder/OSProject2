@@ -53,7 +53,7 @@ public class Job{
 	}
 	
 	public String toString() {
-		return name+"\t"+loadTime+"\t"+completeTime+"\t"+cpuTime+"\t"+timeIO+"\t"+timeSpentReady;
+		return name+"\t"+arrivalTime+"\t\t"+loadTime+"\t\t"+completeTime+"\t\t\t"+cpuTime+"\t\t"+timeIO+"\t\t"+timeSpentReady;
 	}
 	
 	
