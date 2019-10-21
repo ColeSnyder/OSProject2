@@ -76,6 +76,8 @@ public class PCB {
 				started.get(0).setComplete(currentTime);
 				finished[counter++] = started.remove(0);
 				addReadyJobs(jobs, started, currentTime);
+			} else {
+				started.add(started.remove(0));
 			}
 			
 			ioWait.forEach((n) -> {
