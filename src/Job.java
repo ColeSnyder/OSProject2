@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Job{
 	
@@ -53,6 +54,22 @@ public class Job{
 	
 	public String getNext() {
 		return description.get(0);
+	}
+	
+	public void updateWait(int time) {
+		waitingFor -= time;
+	}
+	
+	public void addCPUTime(int time) {
+		cpuTime += time;
+	}
+	
+	public void setComplete(int time) {
+		completeTime = time;
+	}
+	
+	public int getDescription() {
+		return description.size();
 	}
 	
 	public String getNextCpuBurst() {

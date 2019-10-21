@@ -22,25 +22,71 @@ public class PCB {
 	}
 	
 	public void run(int x) {
+		
+		int counter = 0;
+		
 		this.sortingType = x;
 		System.out.println("Time \tEvent");
 		System.out.println("--------------------");
 		int time = this.time;
+		int currentTime = 0;
 		
 		ArrayList<Job> jobs = this.jobs;
 		ArrayList<Job> started = this.started;
 
 		addReadyJobsInit(jobs, started);
-		sort();
 		
-		started.forEach((n) -> {
-			System.out.println(n.getName());
-		});
+//		System.out.println(started);
 		
-		
-		
-		
-		
+		while(!(noJobs())) {
+			
+		int timePassed = 0;
+			sort();
+			
+			if(started.get(0).getNext().equals("I") || started.get(0).getNext().equals("O") || started.get(0).getNext().equals("T")) {
+				sendToWait(started, ioWait);
+				System.out.println(currentTime + "\t" + started.get(0).getName() + " needs " + started.get(0).getNext());
+			} else {
+				
+				int currentJobSize = Integer.parseInt(started.get(0).getNext());
+				
+				if(Integer.parseInt(started.get(0).getNext()) <= time) { 
+					
+					System.out.println(currentTime + "\t" + started.get(0).getName() + " running");
+					currentTime += currentJobSize;
+					started.get(0).pop();
+					timePassed = currentJobSize;
+					System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out");
+					started.get(0).addCPUTime(timePassed);
+					
+				} else if(Integer.parseInt(started.get(0).getNext()) > time) {
+				
+					System.out.println(currentTime + "\t" + started.get(0).getName() + " running");
+					started.get(0).update((currentJobSize - time)+"");
+					currentTime += time;
+					timePassed = time;
+					System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out");
+					started.get(0).addCPUTime(timePassed);
+					
+				}
+			
+			}
+			final int tempTimePassed = timePassed;
+			if (started.get(0).finished()) {
+				started.get(0).setComplete(currentTime);
+				finished[counter++] = started.remove(0);
+				addReadyJobs(jobs, started, currentTime);
+			}
+			
+			ioWait.forEach((n) -> {
+				n.updateWait(tempTimePassed);
+				if(n.isReady()) {
+					ioWait.remove(n);
+					started.add(n);
+				}
+			});
+			
+		}		
 		
 
 		finalPrint();
@@ -82,7 +128,7 @@ public class PCB {
 				
 				Job temp = jobs.remove(0); //Pop job from waiting queue, Need to consider time on waiting
 				System.out.println(time + "\t"+temp.getName() + " loaded and ready");
-				temp.setArrive(time); //This is the time that the job gets moved in
+				temp.setArrive(0); //This is the time that the job gets moved in
 				temp.setLoad(time);
 				started.add(temp); //Add popped job to running
 			}
@@ -112,6 +158,12 @@ public class PCB {
 		for(Job x : finished) {
 			System.out.println(x);
 		}
+	}
+	
+	public boolean noJobs() {
+		
+		return((jobs.size() < 1) && (started.size() < 1) && (ioWait.size() < 1));
+		
 	}
 	
 	
