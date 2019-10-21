@@ -6,7 +6,6 @@ public class Job{
 	private int priority;
 	private ArrayList<String> description;
 	
-	private boolean ready;
 	private int waitingFor;
 	
 	private int arrivalTime;
@@ -22,6 +21,14 @@ public class Job{
 		this.priority = priority;
 		this.description = desc;
 		
+	}
+	
+	public void waitFor(int time) {
+		waitingFor = time;
+	}
+	
+	public boolean isReady() {
+		return waitingFor <= 0;
 	}
 	
 	public void setArrive(int time) {
@@ -40,8 +47,27 @@ public class Job{
 		return priority;
 	}
 	
+	public boolean finished() {
+		return description.size() <= 0;
+	}
+	
 	public String getNext() {
 		return description.get(0);
+	}
+	
+	public String getNextCpuBurst() {
+		if(description.get(0).equals("O") || description.get(0).equals("I") || description.get(0).equals("T")) {
+			if(description.get(1) != null) {
+				return description.get(1);
+			}
+			else {
+				System.out.println("Check line 65 JOB, did not return correct cpu burst");
+				return "";
+			}
+		}
+		else {
+			return description.get(0);
+		}
 	}
 	
 	public void pop() {

@@ -7,6 +7,8 @@ public class PCB {
 	int degree;
 	ArrayList<Job> jobs;
 	ArrayList<Job> started;
+	ArrayList<Job> ioWait;
+	
 	Job[] finished;
 	int sortingType;
 	
@@ -15,6 +17,7 @@ public class PCB {
 		this.degree = degree;
 		this.jobs = jobs;
 		this.started = new ArrayList<Job>();
+		this.ioWait = new ArrayList<Job>();
 		finished = new Job[jobs.size()];
 	}
 	
@@ -23,11 +26,22 @@ public class PCB {
 		System.out.println("Time \tEvent");
 		System.out.println("--------------------");
 		int time = this.time;
+		
 		ArrayList<Job> jobs = this.jobs;
 		ArrayList<Job> started = this.started;
 
 		addReadyJobsInit(jobs, started);
 		sort();
+		
+		started.forEach((n) -> {
+			System.out.println(n.getName());
+		});
+		
+		
+		
+		
+		
+		
 
 		finalPrint();
 	}
@@ -44,6 +58,22 @@ public class PCB {
 			Collections.sort(jobs, new SortByPriority()); //Priority Jobs First
 			break;
 		}
+	}
+	
+	private void sendToWait(ArrayList<Job> started, ArrayList<Job> ioWaiting) {
+		Job temp = started.remove(0);
+		if(temp.getNext().equals("O") || temp.getNext().equals("I")){
+			temp.waitFor(50);
+
+		}
+		else if(temp.getNext().equals("T")) {
+			temp.waitFor(200);
+			
+		}
+		else {
+			System.out.println("Error here!!");
+		}
+		ioWaiting.add(temp);
 	}
 	
 	private void addReadyJobs(ArrayList<Job> jobs, ArrayList<Job> started, int time) {
