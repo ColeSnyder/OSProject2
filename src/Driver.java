@@ -30,12 +30,6 @@ public class Driver {
 			jobs.add(new Job(name,priority,desc));
 		}
 		
-		Collections.sort(jobs, new SortByShortest());
-		
-		for(Object x : jobs.toArray()) {
-			System.out.println(x);
-		}
-		
 		PCB pcb = new PCB(timer, degreeMultiProg, jobs);
 		pcb.run(0);
 

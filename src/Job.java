@@ -10,6 +10,7 @@ public class Job{
 	private int waitingFor;
 	
 	private int arrivalTime;
+	private int loadTime;
 	private int completeTime;
 	private int cpuTime;
 	private int timeIO;
@@ -21,6 +22,18 @@ public class Job{
 		this.priority = priority;
 		this.description = desc;
 		
+	}
+	
+	public void setArrive(int time) {
+		arrivalTime = time;
+	}
+	
+	public void setLoad(int time) {
+		loadTime = time;
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 	public int getPriority() {
@@ -40,7 +53,7 @@ public class Job{
 	}
 	
 	public String toString() {
-		return name+" "+priority+" "+description.get(0);
+		return name+"\t"+loadTime+"\t"+completeTime+"\t"+cpuTime+"\t"+timeIO+"\t"+timeSpentReady;
 	}
 	
 	
