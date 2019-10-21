@@ -1,10 +1,19 @@
 import java.util.ArrayList;
 
-public class Job {
+public class Job{
 	
 	private String name;
 	private int priority;
 	private ArrayList<String> description;
+	
+	private boolean ready;
+	private int waitingFor;
+	
+	private int arrivalTime;
+	private int completeTime;
+	private int cpuTime;
+	private int timeIO;
+	private int timeSpentReady;
 	
 	
 	public Job(String name, int priority, ArrayList<String> desc) {
@@ -31,7 +40,7 @@ public class Job {
 	}
 	
 	public String toString() {
-		return name+" "+priority;
+		return name+" "+priority+" "+description.get(0);
 	}
 	
 	
