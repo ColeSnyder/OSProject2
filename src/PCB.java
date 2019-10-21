@@ -25,7 +25,7 @@ public class PCB {
 		int time = this.time;
 		ArrayList<Job> jobs = this.jobs;
 		ArrayList<Job> started = this.started;
-		finished[0] = jobs.get(0);
+
 		addReadyJobsInit(jobs, started);
 		sort();
 
