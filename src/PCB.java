@@ -79,12 +79,17 @@ public class PCB {
 				timePassed = time;
 			}
 			final int tempTimePassed = timePassed;
+
 			
 			if(started.size()>0) {
 				if (started.get(0).finished()) {
 					started.get(0).setComplete(currentTime);
 					finished[counter++] = started.remove(0);
 					addReadyJobs(jobs, started, currentTime);
+				}
+				else {
+					started.add(started.remove(0));
+
 				}
 			}
 			
