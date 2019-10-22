@@ -43,47 +43,65 @@ public class PCB {
 		int timePassed = 0;
 			sort();
 			
-			if(started.get(0).getNext().equals("I") || started.get(0).getNext().equals("O") || started.get(0).getNext().equals("T")) {
-				sendToWait(started, ioWait);
-				System.out.println(currentTime + "\t" + started.get(0).getName() + " needs " + started.get(0).getNext());
-			} else {
-				
-				int currentJobSize = Integer.parseInt(started.get(0).getNext());
-				
-				if(Integer.parseInt(started.get(0).getNext()) <= time) { 
+			if(started.size() > 0) {
+				if(started.get(0).getNext().equals("I") || started.get(0).getNext().equals("O") || started.get(0).getNext().equals("T")) {
+					System.out.println(currentTime + "\t" + started.get(0).getName() + " needs " + started.get(0).getNext());
+					sendToWait(started, ioWait);
 					
-					System.out.println(currentTime + "\t" + started.get(0).getName() + " running");
-					currentTime += currentJobSize;
-					started.get(0).pop();
-					timePassed = currentJobSize;
-					System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out");
-					started.get(0).addCPUTime(timePassed);
+				} else {
 					
-				} else if(Integer.parseInt(started.get(0).getNext()) > time) {
+					int currentJobSize = Integer.parseInt(started.get(0).getNext());
+					
+					if(Integer.parseInt(started.get(0).getNext()) <= time) { 
+						
+						System.out.println(currentTime + "\t" + started.get(0).getName() + " running");
+						currentTime += currentJobSize;
+						started.get(0).pop();
+						timePassed = currentJobSize;
+						System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out");
+						started.get(0).addCPUTime(timePassed);
+						
+					} else if(Integer.parseInt(started.get(0).getNext()) > time) {
+					
+						System.out.println(currentTime + "\t" + started.get(0).getName() + " running");
+						started.get(0).update((currentJobSize - time)+"");
+						currentTime += time;
+						timePassed = time;
+						System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out");
+						started.get(0).addCPUTime(timePassed);
+						
+					}
 				
-					System.out.println(currentTime + "\t" + started.get(0).getName() + " running");
-					started.get(0).update((currentJobSize - time)+"");
-					currentTime += time;
-					timePassed = time;
-					System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out");
-					started.get(0).addCPUTime(timePassed);
-					
 				}
+			}
 			
+			if(started.size() <= 0) {
+				timePassed = time;
 			}
 			final int tempTimePassed = timePassed;
-			if (started.get(0).finished()) {
-				started.get(0).setComplete(currentTime);
-				finished[counter++] = started.remove(0);
-				addReadyJobs(jobs, started, currentTime);
+			
+			if(started.size()>0) {
+				if (started.get(0).finished()) {
+					started.get(0).setComplete(currentTime);
+					finished[counter++] = started.remove(0);
+					addReadyJobs(jobs, started, currentTime);
+				}
 			}
+			
+			ArrayList<Job> tempUnload = new ArrayList<Job>();
 			
 			ioWait.forEach((n) -> {
 				n.updateWait(tempTimePassed);
 				if(n.isReady()) {
-					ioWait.remove(n);
+					//ioWait.remove(n);
+					tempUnload.add(n);
 					started.add(n);
 				}
+			});
+			
+			tempUnload.forEach((n) -> {
+				ioWait.remove(n);
+
 			});
 			
 		}		
@@ -110,10 +128,12 @@ public class PCB {
 		Job temp = started.remove(0);
 		if(temp.getNext().equals("O") || temp.getNext().equals("I")){
 			temp.waitFor(50);
+			temp.pop();
 
 		}
 		else if(temp.getNext().equals("T")) {
 			temp.waitFor(200);
+			temp.pop();
 			
 		}
 		else {
