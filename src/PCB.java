@@ -44,10 +44,6 @@ public class PCB {
 			sort();
 			
 			if(started.size() > 0) {
-//				if(started.get(0).getNext().equals("I") || started.get(0).getNext().equals("O") || started.get(0).getNext().equals("T")) {
-//					System.out.println(currentTime + "\t" + started.get(0).getName() + " needs " + started.get(0).getNext());
-//					sendToWait(started, ioWait);
-//				} else {
 					
 					int currentJobSize = Integer.parseInt(started.get(0).getNext());
 					
@@ -57,7 +53,7 @@ public class PCB {
 						currentTime += currentJobSize;
 						started.get(0).pop();
 						timePassed = currentJobSize;
-						System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out" + "\t" + started.get(0).getName() + " ready");
+//						System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out" + "\t" + started.get(0).getName() + " ready");
 						started.get(0).addCPUTime(timePassed);			
 						
 
@@ -65,7 +61,9 @@ public class PCB {
 							if(started.get(0).getNext().equals("I") || started.get(0).getNext().equals("O") || started.get(0).getNext().equals("T")) {
 								System.out.println(currentTime + "\t" + started.get(0).getName() + " needs " + started.get(0).getNext());
 								sendToWait(started, ioWait);
-							} 
+							} else {
+								System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out" + "\t" + started.get(0).getName() + " ready");
+							}
 						} catch(Exception e) {
 
 						}
@@ -79,7 +77,7 @@ public class PCB {
 						started.get(0).update((currentJobSize - time)+"");
 						currentTime += time;
 						timePassed = time;
-						System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out" + "\t" + started.get(0).getName() + " ready");
+//						System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out" + "\t" + started.get(0).getName() + " ready");
 						started.get(0).addCPUTime(timePassed);
 					
 						
@@ -87,14 +85,15 @@ public class PCB {
 							if(started.get(0).getNext().equals("I") || started.get(0).getNext().equals("O") || started.get(0).getNext().equals("T")) {
 								System.out.println(currentTime + "\t" + started.get(0).getName() + " needs " + started.get(0).getNext());
 								sendToWait(started, ioWait);
-							} 
+							} else {
+								System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out" + "\t" + started.get(0).getName() + " ready");
+							}
 						} catch(Exception e) {
 
 						}
 						
 					}
 				
-//				}
 			}
 			
 			if(started.size() <= 0) {
