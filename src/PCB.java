@@ -145,7 +145,6 @@ public class PCB {
 			
 			tempUnload.forEach((n) -> {
 				ioWait.remove(n);
-
 			});
 			
 		}		

@@ -31,7 +31,7 @@ public class Driver {
 		}
 		
 		PCB pcb = new PCB(timer, degreeMultiProg, jobs);
-		pcb.run(0);
+		pcb.run(1);
 
 	}
 
