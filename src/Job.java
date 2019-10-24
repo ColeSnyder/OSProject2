@@ -16,6 +16,7 @@ public class Job{
 	private int timeSpentReady;
 	
 	
+	
 	public Job(String name, int priority, ArrayList<String> desc) {
 		this.name = name;
 		this.priority = priority;

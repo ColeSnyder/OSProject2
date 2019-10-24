@@ -9,6 +9,9 @@ public class PCB {
 	ArrayList<Job> started;
 	ArrayList<Job> ioWait;
 	
+	int waitTime;
+//	int timeUntilWaitDone; 
+	
 	Job[] finished;
 	int sortingType;
 	
@@ -35,9 +38,7 @@ public class PCB {
 		ArrayList<Job> started = this.started;
 
 		addReadyJobsInit(jobs, started);
-		
-//		System.out.println(started);
-		
+				
 		while(!(noJobs())) {
 			
 		int timePassed = 0;
@@ -47,7 +48,6 @@ public class PCB {
 				if(started.get(0).getNext().equals("I") || started.get(0).getNext().equals("O") || started.get(0).getNext().equals("T")) {
 					System.out.println(currentTime + "\t" + started.get(0).getName() + " needs " + started.get(0).getNext());
 					sendToWait(started, ioWait);
-					
 				} else {
 					
 					int currentJobSize = Integer.parseInt(started.get(0).getNext());
@@ -58,8 +58,10 @@ public class PCB {
 						currentTime += currentJobSize;
 						started.get(0).pop();
 						timePassed = currentJobSize;
-						System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out");
-						started.get(0).addCPUTime(timePassed);
+						System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out" + "\t" + started.get(0).getName() + " ready");
+						started.get(0).addCPUTime(timePassed);						
+						
+//						checkWaitDone();
 						
 					} else if(Integer.parseInt(started.get(0).getNext()) > time) {
 					
@@ -67,8 +69,10 @@ public class PCB {
 						started.get(0).update((currentJobSize - time)+"");
 						currentTime += time;
 						timePassed = time;
-						System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out");
+						System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out" + "\t" + started.get(0).getName() + " ready");
 						started.get(0).addCPUTime(timePassed);
+						
+//						checkWaitDone();
 						
 					}
 				
@@ -78,8 +82,9 @@ public class PCB {
 			if(started.size() <= 0) {
 				timePassed = time;
 			}
+			
 			final int tempTimePassed = timePassed;
-
+			waitTime = currentTime;
 			
 			if(started.size()>0) {
 				if (started.get(0).finished()) {
@@ -98,7 +103,8 @@ public class PCB {
 			ioWait.forEach((n) -> {
 				n.updateWait(tempTimePassed);
 				if(n.isReady()) {
-					//ioWait.remove(n);
+//					ioWait.remove(n);
+					System.out.println(waitTime + "\t" + "I/O complete" + "\t" + n.getName() + " ready");
 					tempUnload.add(n);
 					started.add(n);
 				}
@@ -130,15 +136,27 @@ public class PCB {
 	}
 	
 	private void sendToWait(ArrayList<Job> started, ArrayList<Job> ioWaiting) {
+//		String jobInWait = started.get(0).getName();
 		Job temp = started.remove(0);
+		
 		if(temp.getNext().equals("O") || temp.getNext().equals("I")){
 			temp.waitFor(50);
-			temp.pop();
-
+			temp.pop();		
+			
+			
+			
+			
+			
+			
 		}
 		else if(temp.getNext().equals("T")) {
 			temp.waitFor(200);
 			temp.pop();
+
+//			timeUntilWaitDone = waitTime + 200;
+			
+			
+			
 			
 		}
 		else {
@@ -190,6 +208,14 @@ public class PCB {
 		return((jobs.size() < 1) && (started.size() < 1) && (ioWait.size() < 1));
 		
 	}
+	
+//	public void checkWaitDone() {
+//		
+//		if (waitTime == timeUntilWaitDone) {
+//			System.out.println(started.get(0).getName() + "\t" + "i/o done");
+//		}
+//		
+//	}
 	
 	
 
