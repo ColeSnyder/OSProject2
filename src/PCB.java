@@ -101,6 +101,7 @@ public class PCB {
 			}
 			
 			if(started.size() <= 0) {
+				currentTime += time;
 				timePassed = time;
 			}
 			
