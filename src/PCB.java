@@ -40,6 +40,8 @@ public class PCB {
 				
 		while(!(noJobs())) {
 			
+			boolean iot = false;
+			
 		int timePassed = 0;
 			sort();
 			
@@ -56,10 +58,12 @@ public class PCB {
 //						System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out" + "\t" + started.get(0).getName() + " ready");
 						started.get(0).addCPUTime(timePassed);			
 						
+						
 
 						try {
 							if(started.get(0).getNext().equals("I") || started.get(0).getNext().equals("O") || started.get(0).getNext().equals("T")) {
 								System.out.println(currentTime + "\t" + started.get(0).getName() + " needs " + started.get(0).getNext());
+								iot = true;
 								sendToWait(started, ioWait);
 							} else {
 								System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out" + "\t" + started.get(0).getName() + " ready");
@@ -81,9 +85,11 @@ public class PCB {
 						started.get(0).addCPUTime(timePassed);
 					
 						
+						
 						try {
 							if(started.get(0).getNext().equals("I") || started.get(0).getNext().equals("O") || started.get(0).getNext().equals("T")) {
 								System.out.println(currentTime + "\t" + started.get(0).getName() + " needs " + started.get(0).getNext());
+								iot = true;
 								sendToWait(started, ioWait);
 							} else {
 								System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out" + "\t" + started.get(0).getName() + " ready");
@@ -109,7 +115,8 @@ public class PCB {
 					finished[counter++] = started.remove(0);
 					addReadyJobs(jobs, started, currentTime);
 				}
-				else {
+				else if (!iot){
+					
 					started.add(started.remove(0));
 
 				}
