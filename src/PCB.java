@@ -124,15 +124,18 @@ public class PCB {
 			
 			ArrayList<Job> tempUnload = new ArrayList<Job>();
 			
-			ioWait.forEach((n) -> {
-				n.updateWait(tempTimePassed);
-				if(n.isReady()) {
-//					ioWait.remove(n);
-					System.out.println(waitTime + "\t" + "I/O complete" + "\t" + n.getName() + " ready");
-					tempUnload.add(n);
-					started.add(n);
-				}
-			});
+			if(!iot) {
+				ioWait.forEach((n) -> {
+					n.updateWait(tempTimePassed);
+					if(n.isReady()) {
+//						ioWait.remove(n);
+						System.out.println(waitTime + "\t" + "I/O complete" + "\t" + n.getName() + " ready");
+						tempUnload.add(n);
+						started.add(n);
+					}
+				});
+			}
+			
 			
 			tempUnload.forEach((n) -> {
 				ioWait.remove(n);
