@@ -56,8 +56,10 @@ public class Job{
 		return description.get(0);
 	}
 	
-	public void updateWait(int time) {
-		waitingFor -= time;
+	public void updateWait(int time, String currentJob) {
+		if(!name.equals(currentJob)) {
+			waitingFor -= time;
+		}
 	}
 	
 	public void addCPUTime(int time) {
@@ -100,6 +102,7 @@ public class Job{
 	}
 	
 	public String toString() {
+		timeSpentReady = completeTime - loadTime - cpuTime - timeIO;
 		return name+"\t"+arrivalTime+"\t\t"+loadTime+"\t\t"+completeTime+"\t\t\t"+cpuTime+"\t\t"+timeIO+"\t\t"+timeSpentReady;
 	}
 	

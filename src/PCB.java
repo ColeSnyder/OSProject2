@@ -41,11 +41,14 @@ public class PCB {
 		while(!(noJobs())) {
 			
 			boolean iot = false;
+			String currentJob = "";
 			
 		int timePassed = 0;
 			sort();
 			
 			if(started.size() > 0) {
+				
+				currentJob = started.get(0).getName();
 					
 					int currentJobSize = Integer.parseInt(started.get(0).getNext());
 					
@@ -125,9 +128,11 @@ public class PCB {
 			
 			ArrayList<Job> tempUnload = new ArrayList<Job>();
 			
-			if(!iot) {
+			final String CURRENT_JOB = currentJob;
+			
+			//if(!iot) {
 				ioWait.forEach((n) -> {
-					n.updateWait(tempTimePassed);
+					n.updateWait(tempTimePassed, CURRENT_JOB);
 					if(n.isReady()) {
 //						ioWait.remove(n);
 						System.out.println(waitTime + "\t" + "I/O complete" + "\t" + n.getName() + " ready");
@@ -135,7 +140,7 @@ public class PCB {
 						started.add(n);
 					}
 				});
-			}
+			//}
 			
 			
 			tempUnload.forEach((n) -> {
