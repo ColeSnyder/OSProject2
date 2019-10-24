@@ -44,10 +44,10 @@ public class PCB {
 			sort();
 			
 			if(started.size() > 0) {
-				if(started.get(0).getNext().equals("I") || started.get(0).getNext().equals("O") || started.get(0).getNext().equals("T")) {
-					System.out.println(currentTime + "\t" + started.get(0).getName() + " needs " + started.get(0).getNext());
-					sendToWait(started, ioWait);
-				} else {
+//				if(started.get(0).getNext().equals("I") || started.get(0).getNext().equals("O") || started.get(0).getNext().equals("T")) {
+//					System.out.println(currentTime + "\t" + started.get(0).getName() + " needs " + started.get(0).getNext());
+//					sendToWait(started, ioWait);
+//				} else {
 					
 					int currentJobSize = Integer.parseInt(started.get(0).getNext());
 					
@@ -58,7 +58,17 @@ public class PCB {
 						started.get(0).pop();
 						timePassed = currentJobSize;
 						System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out" + "\t" + started.get(0).getName() + " ready");
-						started.get(0).addCPUTime(timePassed);						
+						started.get(0).addCPUTime(timePassed);			
+						
+
+						try {
+							if(started.get(0).getNext().equals("I") || started.get(0).getNext().equals("O") || started.get(0).getNext().equals("T")) {
+								System.out.println(currentTime + "\t" + started.get(0).getName() + " needs " + started.get(0).getNext());
+								sendToWait(started, ioWait);
+							} 
+						} catch(Exception e) {
+
+						}
 						
 						
 						
@@ -73,10 +83,18 @@ public class PCB {
 						started.get(0).addCPUTime(timePassed);
 					
 						
+						try {
+							if(started.get(0).getNext().equals("I") || started.get(0).getNext().equals("O") || started.get(0).getNext().equals("T")) {
+								System.out.println(currentTime + "\t" + started.get(0).getName() + " needs " + started.get(0).getNext());
+								sendToWait(started, ioWait);
+							} 
+						} catch(Exception e) {
+
+						}
 						
 					}
 				
-				}
+//				}
 			}
 			
 			if(started.size() <= 0) {
