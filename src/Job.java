@@ -64,6 +64,10 @@ public class Job{
 		cpuTime += time;
 	}
 	
+	public void addIOTime(int time) {
+		timeIO += time;
+	}
+	
 	public void setComplete(int time) {
 		completeTime = time;
 	}
@@ -78,7 +82,7 @@ public class Job{
 				return description.get(1);
 			}
 			else {
-				System.out.println("Check line 65 JOB, did not return correct cpu burst");
+				System.out.println("Check line 64 JOB, did not return correct cpu burst");
 				return "";
 			}
 		}

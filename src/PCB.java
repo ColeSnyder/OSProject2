@@ -10,7 +10,6 @@ public class PCB {
 	ArrayList<Job> ioWait;
 	
 	int waitTime;
-//	int timeUntilWaitDone; 
 	
 	Job[] finished;
 	int sortingType;
@@ -61,9 +60,10 @@ public class PCB {
 						System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out" + "\t" + started.get(0).getName() + " ready");
 						started.get(0).addCPUTime(timePassed);						
 						
-//						checkWaitDone();
+						
 						
 					} else if(Integer.parseInt(started.get(0).getNext()) > time) {
+						
 					
 						System.out.println(currentTime + "\t" + started.get(0).getName() + " running");
 						started.get(0).update((currentJobSize - time)+"");
@@ -71,8 +71,8 @@ public class PCB {
 						timePassed = time;
 						System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out" + "\t" + started.get(0).getName() + " ready");
 						started.get(0).addCPUTime(timePassed);
+					
 						
-//						checkWaitDone();
 						
 					}
 				
@@ -141,11 +141,13 @@ public class PCB {
 		if(temp.getNext().equals("O") || temp.getNext().equals("I")){
 			temp.waitFor(50);
 			temp.pop();		
+			temp.addIOTime(50);
 			
 		}
 		else if(temp.getNext().equals("T")) {
 			temp.waitFor(200);
 			temp.pop();
+			temp.addIOTime(200);
 			
 		}
 		else {
