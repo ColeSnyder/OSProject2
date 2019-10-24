@@ -136,27 +136,16 @@ public class PCB {
 	}
 	
 	private void sendToWait(ArrayList<Job> started, ArrayList<Job> ioWaiting) {
-//		String jobInWait = started.get(0).getName();
 		Job temp = started.remove(0);
 		
 		if(temp.getNext().equals("O") || temp.getNext().equals("I")){
 			temp.waitFor(50);
 			temp.pop();		
 			
-			
-			
-			
-			
-			
 		}
 		else if(temp.getNext().equals("T")) {
 			temp.waitFor(200);
 			temp.pop();
-
-//			timeUntilWaitDone = waitTime + 200;
-			
-			
-			
 			
 		}
 		else {
@@ -208,14 +197,6 @@ public class PCB {
 		return((jobs.size() < 1) && (started.size() < 1) && (ioWait.size() < 1));
 		
 	}
-	
-//	public void checkWaitDone() {
-//		
-//		if (waitTime == timeUntilWaitDone) {
-//			System.out.println(started.get(0).getName() + "\t" + "i/o done");
-//		}
-//		
-//	}
 	
 	
 
