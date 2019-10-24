@@ -55,7 +55,6 @@ public class PCB {
 						currentTime += currentJobSize;
 						started.get(0).pop();
 						timePassed = currentJobSize;
-//						System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out" + "\t" + started.get(0).getName() + " ready");
 						started.get(0).addCPUTime(timePassed);			
 						
 						
@@ -81,7 +80,6 @@ public class PCB {
 						started.get(0).update((currentJobSize - time)+"");
 						currentTime += time;
 						timePassed = time;
-//						System.out.println(currentTime + "\t" + started.get(0).getName() + " timed out" + "\t" + started.get(0).getName() + " ready");
 						started.get(0).addCPUTime(timePassed);
 					
 						
@@ -111,14 +109,16 @@ public class PCB {
 			
 			if(started.size()>0) {
 				if (started.get(0).finished()) {
+					System.out.println(currentTime + "\t" + started.get(0).getName() + " done");
+					
+					
+					
 					started.get(0).setComplete(currentTime);
 					finished[counter++] = started.remove(0);
 					addReadyJobs(jobs, started, currentTime);
 				}
 				else if (!iot){
-					
 					started.add(started.remove(0));
-
 				}
 			}
 			
@@ -189,6 +189,7 @@ public class PCB {
 				temp.setArrive(0); //This is the time that the job gets moved in
 				temp.setLoad(time);
 				started.add(temp); //Add popped job to running
+				
 			}
 
 	}
