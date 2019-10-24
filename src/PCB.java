@@ -104,7 +104,9 @@ public class PCB {
 			}
 			
 			if(started.size() <= 0) {
+				
 				currentTime += time;
+				System.out.println("Here      "+currentTime);
 				timePassed = time;
 			}
 			
@@ -114,8 +116,6 @@ public class PCB {
 			if(started.size()>0) {
 				if (started.get(0).finished()) {
 					System.out.println(currentTime + "\t" + started.get(0).getName() + " done");
-					
-					
 					
 					started.get(0).setComplete(currentTime);
 					finished[counter++] = started.remove(0);
@@ -128,19 +128,22 @@ public class PCB {
 			
 			ArrayList<Job> tempUnload = new ArrayList<Job>();
 			
+			
+			
+			if(started.size() <= 0) {
+				currentJob = "";
+			}
+			
 			final String CURRENT_JOB = currentJob;
 			
-			//if(!iot) {
 				ioWait.forEach((n) -> {
 					n.updateWait(tempTimePassed, CURRENT_JOB);
 					if(n.isReady()) {
-//						ioWait.remove(n);
 						System.out.println(waitTime + "\t" + "I/O complete" + "\t" + n.getName() + " ready");
 						tempUnload.add(n);
 						started.add(n);
 					}
 				});
-			//}
 			
 			
 			tempUnload.forEach((n) -> {
@@ -159,10 +162,10 @@ public class PCB {
 			//Round Robin No sorting possibly pop first and add to end?
 			break;
 		case 1:
-			Collections.sort(jobs, new SortByShortest()); //Shortest Job First
+			Collections.sort(started, new SortByShortest()); //Shortest Job First
 			break;
 		case 2:
-			Collections.sort(jobs, new SortByPriority()); //Priority Jobs First
+			Collections.sort(started, new SortByPriority()); //Priority Jobs First
 			break;
 		}
 	}
