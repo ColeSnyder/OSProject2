@@ -25,6 +25,8 @@ public class PCB {
 	
 	public void run(int x) {
 		
+		initString(x);
+		
 		int counter = 0;
 		
 		this.sortingType = x;
@@ -35,9 +37,8 @@ public class PCB {
 		
 		ArrayList<Job> jobs = this.jobs;
 		ArrayList<Job> started = this.started;
-
 		addReadyJobsInit(jobs, started);
-				
+			
 		while(!(noJobs())) {
 			
 			boolean iot = false;
@@ -49,7 +50,6 @@ public class PCB {
 			if(started.size() > 0) {
 				
 				currentJob = started.get(0).getName();
-					
 					int currentJobSize = Integer.parseInt(started.get(0).getNext());
 					
 					if(Integer.parseInt(started.get(0).getNext()) <= time) { 
@@ -106,7 +106,6 @@ public class PCB {
 			if(started.size() <= 0) {
 				
 				currentTime += time;
-				System.out.println("Here      "+currentTime);
 				timePassed = time;
 			}
 			
@@ -148,7 +147,9 @@ public class PCB {
 				ioWait.forEach((n) -> {
 					n.updateWait(tempTimePassed, CURRENT_JOB);
 					if(n.isReady()) {
+						System.out.println();
 						System.out.println(waitTime + "\t" + "I/O complete" + "\t" + n.getName() + " ready");
+						System.out.println();
 						tempUnload.add(n);
 						started.add(n);
 					}
@@ -161,7 +162,9 @@ public class PCB {
 			
 		}		
 		
-
+		System.out.println();
+		System.out.println("All jobs done at "+currentTime);
+		System.out.println();
 		finalPrint();
 	}
 	
@@ -205,7 +208,9 @@ public class PCB {
 			while(started.size() < degree && jobs.size() > 0) {
 				
 				Job temp = jobs.remove(0); //Pop job from waiting queue, Need to consider time on waiting
+				System.out.println();
 				System.out.println(time + "\t"+temp.getName() + " loaded and ready");
+				System.out.println();
 				temp.setArrive(0); //This is the time that the job gets moved in
 				temp.setLoad(time);
 				started.add(temp); //Add popped job to running
@@ -229,10 +234,12 @@ public class PCB {
 		jobs.forEach((n) -> {
 			System.out.println(0 + "\t"+n.getName() + " arrived");
 		});
+		
+		System.out.println();
 
 	}
 	
-	private void finalPrint() {
+	protected void finalPrint() {
 		System.out.println("Job \tArrival Time \tLoad Time \tCompletion Time \tCpu Time \tTime For I/O \tTime Spent Ready");
 		for(Job x : finished) {
 			System.out.println(x);
@@ -243,6 +250,18 @@ public class PCB {
 		
 		return((jobs.size() < 1) && (started.size() < 1) && (ioWait.size() < 1));
 		
+	}
+	
+	public void initString(int x) {
+		if(x == 0) {
+			System.out.println("RR/FCFS:");
+		}
+		else if(x ==1) {
+			System.out.println("SJF:");
+		}
+		else {
+			System.out.println("P:");
+		}
 	}
 	
 	

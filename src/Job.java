@@ -20,7 +20,7 @@ public class Job{
 	public Job(String name, int priority, ArrayList<String> desc) {
 		this.name = name;
 		this.priority = priority;
-		this.description = desc;
+		this.description = (ArrayList<String>) desc.clone();
 		
 	}
 	

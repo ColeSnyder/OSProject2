@@ -12,6 +12,8 @@ public class Driver {
 		Scanner scan = new Scanner(new File("jobs.dat"));
 		
 		ArrayList<Job> jobs = new ArrayList<Job>();
+		ArrayList<Job> jobs1 = new ArrayList<Job>();
+		ArrayList<Job> jobs2 = new ArrayList<Job>();
 		
 		timer = scan.nextInt();
 		degreeMultiProg = scan.nextInt();
@@ -22,15 +24,28 @@ public class Driver {
 		
 		while(scan.hasNextLine()) {
 			ArrayList<String> desc = new ArrayList<String>();
+			ArrayList<String> desc1 = new ArrayList<String>();
+			ArrayList<String> desc2 = new ArrayList<String>();
 			name = scan.next();
 			priority = scan.nextInt();
 			for (String x : scan.nextLine().trim().split(" ")) {
 				desc.add(x);
+				desc1.add(x);
+				desc2.add(x);
 			}
-			jobs.add(new Job(name,priority,desc));
+			
+			jobs.add(new Job(name,priority,(ArrayList<String>) desc));
+			jobs1.add(new Job(name,priority,(ArrayList<String>) desc1));
+			jobs2.add(new Job(name,priority,(ArrayList<String>) desc2));
 		}
-		
+
 		PCB pcb = new PCB(timer, degreeMultiProg, jobs);
+		pcb.run(0);
+		pcb = new PCB(timer, degreeMultiProg, jobs1);
+		System.out.println();
+		pcb.run(1);
+		pcb = new PCB(timer, degreeMultiProg, jobs2);
+		System.out.println();
 		pcb.run(2);
 
 	}
