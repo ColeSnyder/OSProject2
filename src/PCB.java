@@ -122,7 +122,16 @@ public class PCB {
 					addReadyJobs(jobs, started, currentTime);
 				}
 				else if (!iot){
-					started.add(started.remove(0));
+					if(this.sortingType == 0) {
+						started.add(0,started.remove(0));
+					}
+					else if(this.sortingType == 1){
+						started.add(started.remove(0));
+					}
+					else {
+						
+					}
+					
 				}
 			}
 			
